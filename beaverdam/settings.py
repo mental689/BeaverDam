@@ -155,3 +155,8 @@ try:
     from beaverdam.deploy_settings import *
 except ImportError as e:
     pass
+
+# For registration
+ACCOUNT_ACTIVATION_DAYS = 1
+REGISTRATION_OPEN = True
+

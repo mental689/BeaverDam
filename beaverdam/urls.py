@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
@@ -30,6 +30,7 @@ urlpatterns = [
             'extra_context': {'site_header': 'BeaverDam Login'}
         }, name='login'),
     url(r'^logout/$', logout),
-    url(r'^accounts/', RedirectView.as_view(url='/')),
+#    url(r'^accounts/', RedirectView.as_view(url='/')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^admin/', admin.site.urls),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
