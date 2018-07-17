@@ -12,6 +12,7 @@
     assignmentId = '{{ mturk_data.assignment_id }}';
     helpEmbedded = {{ help_embed|yesno:'true,false,false' }};
   </script>
+  <script src="/static/timer.jquery.min.js" type="text/javascript"></script>
   <script src="/static/vendor/raphael/raphael.min.js"></script>
   <script src="/static/vendor/imgplay/jquery.imgplay.min.js"></script>
   <script type="text/javascript" src="/static/views/framePlayers.js"></script>
@@ -87,6 +88,17 @@
 
     $(document).ready(function () {
       $("#labels").prop("selectedIndex", 0).change();
+								  $("#timer").timer();
+	$("#timer").timer("pause");
+	$("#timer-btn").on("click", function() {
+								  if($("#timer-btn").text() == "Start") {
+								  $("#timer-btn").text("Pause");
+								  $("#timer").timer("resume");
+								  } else {
+								  $("#timer-btn").text("Start");
+                                                                  $("#timer").timer("pause");
+								  }
+	});
     });
   </script>
 
@@ -112,8 +124,9 @@
           {% if help_embed %} id="show-help" {% else %} href="{{help_url}}" {% endif %}>
         Instructions &amp; Requirements
       </a>
-
+      
       <div id="submit-container">
+	<div id="welcome-msg" class="btn-group" role="group">Hello, {% if user.is_authenticated %}{{ user }}{% else %}Guest{% endif %}  </div>
       {% if mturk_data.preview == False %}
         {% if mturk_data.authenticated %}
         <!-- Turker View -->
@@ -143,12 +156,15 @@
               {% endif %}
               <button class="btn" disabled>{{ mturk_data.status }}</button>
             {% endif %}
+	    <button id="timer-btn" type="button" class="btn btn-primary">Start</button>
           </div>
         {% endif %}
       {% else %}
         <h2>Preview Mode: Please accept HIT before working</h2>
       {% endif %}
-      </div>
+      <div id="timer-div" class="btn-group" role="group">
+	      <b><div id="timer"></div></b></div>
+	      </div>
     </div>
 
     <div class="panel-body col-md-9">
